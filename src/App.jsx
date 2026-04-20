@@ -2,50 +2,50 @@ import { useState, useEffect, useRef } from "react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, LineChart, Line } from "recharts";
 
 const PORTFOLIO = {
-  VWRA:  { label:"Vanguard All-World",  layer:"World",    alloc:0.25, ter:0.19, color:"#4fc3f7", bear:6.5,  base:9.5,  bull:13.0 },
-  CSNDX: { label:"Nasdaq 100 (USD)",    layer:"Software", alloc:0.25, ter:0.20, color:"#81c784", bear:8.0,  base:12.5, bull:17.0 },
-  CSPX:  { label:"S&P 500 Core",        layer:"Economy",  alloc:0.20, ter:0.07, color:"#fff176", bear:7.0,  base:10.5, bull:14.0 },
-  SMH:   { label:"Semiconductors",      layer:"Hardware", alloc:0.30, ter:0.35, color:"#ff8a65", bear:6.0,  base:13.5, bull:22.0 },
+  VWRA:  { label:"Vanguard All-World",  layer:"World",    alloc:0.25, ter:0.19, color:"#0ea5e9", bear:6.5,  base:9.5,  bull:13.0 },
+  CSNDX: { label:"Nasdaq 100 (USD)",    layer:"Software", alloc:0.25, ter:0.20, color:"#22c55e", bear:8.0,  base:12.5, bull:17.0 },
+  CSPX:  { label:"S&P 500 Core",        layer:"Economy",  alloc:0.20, ter:0.07, color:"#eab308", bear:7.0,  base:10.5, bull:14.0 },
+  SMH:   { label:"Semiconductors",      layer:"Hardware", alloc:0.30, ter:0.35, color:"#f97316", bear:6.0,  base:13.5, bull:22.0 },
 };
 const BLENDED_TER = Object.values(PORTFOLIO).reduce((s,e)=>s+e.alloc*e.ter,0);
 
 const ATH_INIT = {
-  VWRA:  { val:178.64,  currency:"USD", exchange:"LSE"     },
-  CSNDX: { val:1500.60, currency:"USD", exchange:"EBS/SIX" },
-  CSPX:  { val:780.00,  currency:"USD", exchange:"LSE"     },
-  SMH:   { val:280.00,  currency:"USD", exchange:"NASDAQ"  },
+  VWRA:  { val:151.44, currency:"USD", exchange:"NYSE (VT proxy)"    },
+  CSNDX: { val:650.00, currency:"USD", exchange:"NASDAQ (QQQ proxy)" },
+  CSPX:  { val:712.39, currency:"USD", exchange:"NYSE (SPY proxy)"   },
+  SMH:   { val:464.58, currency:"USD", exchange:"NASDAQ"             },
 };
 
 const TIERS = [
-  { drop:"0–10%",  freq:"3–4× per year",   action:"Do nothing. DCA only.",         topup:0,     color:"#4a5070", intensity:0 },
-  { drop:"10–15%", freq:"Every 1–2 years",  action:"Small top-up on conviction.",   topup:500,   color:"#7986cb", intensity:1 },
-  { drop:"15–20%", freq:"Every 2–3 years",  action:"Moderate deployment.",          topup:1500,  color:"#4fc3f7", intensity:2 },
-  { drop:"20–30%", freq:"Every 3–5 years",  action:"Deploy Tier 1 war chest.",      topup:5000,  color:"#4caf7d", intensity:3 },
-  { drop:"30–40%", freq:"Every 5–7 years",  action:"Deploy Tier 2. Be aggressive.", topup:10000, color:"#c8963e", intensity:4 },
-  { drop:"40–50%", freq:"Once a decade",    action:"Deploy Tier 3. Maximum mode.",  topup:15000, color:"#e05555", intensity:5 },
-  { drop:"50%+",   freq:"Generational",     action:"Deploy everything available.",  topup:20000, color:"#ff4444", intensity:6 },
+  { drop:"0–10%",  freq:"3–4× per year",   action:"Do nothing. DCA only.",         topup:0,     color:"#94a3b8", intensity:0 },
+  { drop:"10–15%", freq:"Every 1–2 years",  action:"Small top-up on conviction.",   topup:500,   color:"#818cf8", intensity:1 },
+  { drop:"15–20%", freq:"Every 2–3 years",  action:"Moderate deployment.",          topup:1500,  color:"#38bdf8", intensity:2 },
+  { drop:"20–30%", freq:"Every 3–5 years",  action:"Deploy Tier 1 war chest.",      topup:5000,  color:"#34d399", intensity:3 },
+  { drop:"30–40%", freq:"Every 5–7 years",  action:"Deploy Tier 2. Be aggressive.", topup:10000, color:"#fbbf24", intensity:4 },
+  { drop:"40–50%", freq:"Once a decade",    action:"Deploy Tier 3. Maximum mode.",  topup:15000, color:"#f87171", intensity:5 },
+  { drop:"50%+",   freq:"Generational",     action:"Deploy everything available.",  topup:20000, color:"#ef4444", intensity:6 },
 ];
 
 const ETF_PB = {
-  VWRA:  { thresholds:[10,20,30,40],     amounts:[0,2000,5000,10000],        note:"Rarely drops 40%+ — generational buy",                      color:"#4fc3f7" },
-  CSNDX: { thresholds:[10,20,30,40,50],  amounts:[0,1500,4000,8000,15000],   note:"-30% on Nasdaq happens every few years. Buy confidently.",   color:"#81c784" },
-  CSPX:  { thresholds:[10,20,30,40,50],  amounts:[0,2000,5000,10000,20000],  note:"S&P 500 -50% happened twice in 25yrs. Both generational.",   color:"#fff176" },
-  SMH:   { thresholds:[15,25,35,45,55],  amounts:[0,2000,5000,10000,20000],  note:"-40% with AI thesis intact = best opportunity.",             color:"#ff8a65" },
+  VWRA:  { thresholds:[10,20,30,40],     amounts:[0,2000,5000,10000],        note:"Rarely drops 40%+ — generational buy",                      color:"#0ea5e9" },
+  CSNDX: { thresholds:[10,20,30,40,50],  amounts:[0,1500,4000,8000,15000],   note:"-30% on Nasdaq happens every few years. Buy confidently.",   color:"#22c55e" },
+  CSPX:  { thresholds:[10,20,30,40,50],  amounts:[0,2000,5000,10000,20000],  note:"S&P 500 -50% happened twice in 25yrs. Both generational.",   color:"#eab308" },
+  SMH:   { thresholds:[15,25,35,45,55],  amounts:[0,2000,5000,10000,20000],  note:"-40% with AI thesis intact = best opportunity.",             color:"#f97316" },
 };
 
 const AI_LAYERS = [
-  { key:"SMH",   layer:"Hardware",  desc:"Chips power every AI model trained & deployed. No chips = no AI.",        color:"#ff8a65" },
-  { key:"CSNDX", layer:"Software",  desc:"Microsoft, Google, Meta, Amazon — monetising AI at scale right now.",     color:"#81c784" },
-  { key:"CSPX",  layer:"Economy",   desc:"Every S&P 500 sector transformed by AI productivity gains.",             color:"#fff176" },
-  { key:"VWRA",  layer:"World",     desc:"Global AI spillover — European automation, EM leapfrogging.",            color:"#4fc3f7" },
+  { key:"SMH",   layer:"Hardware",  desc:"Chips power every AI model trained & deployed. No chips = no AI.",        color:"#f97316" },
+  { key:"CSNDX", layer:"Software",  desc:"Microsoft, Google, Meta, Amazon — monetising AI at scale right now.",     color:"#22c55e" },
+  { key:"CSPX",  layer:"Economy",   desc:"Every S&P 500 sector transformed by AI productivity gains.",             color:"#eab308" },
+  { key:"VWRA",  layer:"World",     desc:"Global AI spillover — European automation, EM leapfrogging.",            color:"#0ea5e9" },
 ];
 
 const SSB_STEPS = [
-  { phase:"Build",     time:"Now → $20K",          action:"Save $500–1,000/mo into SSB",                 detail:"~2% yield while waiting. $2 transaction fee.",        color:"#4caf7d" },
-  { phase:"Crash",     time:"Market drops 30%+",   action:"Submit SSB redemption via bank app",           detail:"Partial redemptions in $500 increments.",              color:"#e05555" },
-  { phase:"Wait",      time:"~4 weeks",            action:"Cash credited by 2nd business day next month", detail:"Market may still fall — you may buy even cheaper.",    color:"#c8963e" },
-  { phase:"Deploy",    time:"Cash arrives",        action:"Buy 4 ETFs at same target allocation",         detail:"Same VWRA/CSNDX/CSPX/SMH ratios. No improvising.",     color:"#4fc3f7" },
-  { phase:"Replenish", time:"Next 12–18 months",   action:"Rebuild war chest back to $20K",               detail:"Wait for next crash. Repeat every cycle.",             color:"#81c784" },
+  { phase:"Build",     time:"Now → $20K",          action:"Save $500–1,000/mo into SSB",                 detail:"~2% yield while waiting. $2 transaction fee.",        color:"#10b981" },
+  { phase:"Crash",     time:"Market drops 30%+",   action:"Submit SSB redemption via bank app",           detail:"Partial redemptions in $500 increments.",              color:"#ef4444" },
+  { phase:"Wait",      time:"~4 weeks",            action:"Cash credited by 2nd business day next month", detail:"Market may still fall — you may buy even cheaper.",    color:"#f59e0b" },
+  { phase:"Deploy",    time:"Cash arrives",        action:"Buy 4 ETFs at same target allocation",         detail:"Same VWRA/CSNDX/CSPX/SMH ratios. No improvising.",     color:"#6366f1" },
+  { phase:"Replenish", time:"Next 12–18 months",   action:"Rebuild war chest back to $20K",               detail:"Wait for next crash. Repeat every cycle.",             color:"#10b981" },
 ];
 
 const RULES6 = [
@@ -74,9 +74,9 @@ const QUOTES = [
   { q:"Every next level of your life will demand a different version of you.", a:"Unknown" },
 ];
 
-const BG="#060810", SURFACE="#0b0e18", CARD="#0f1220", BORDER="#1c2035";
-const MUTED="#2a2f45", DIM="#4a5070", TEXT="#dde2f0";
-const GOLD="#c8963e", GREEN="#4caf7d", RED="#e05555", BLUE="#4fc3f7";
+const BG="#f0f4ff", SURFACE="#f5f7ff", CARD="#ffffff", BORDER="#e0e7ff";
+const MUTED="#c7d2fe", DIM="#64748b", TEXT="#0f172a";
+const GOLD="#f59e0b", GREEN="#10b981", RED="#ef4444", BLUE="#6366f1";
 const TABS=["Overview","My Journey","Growth","Stress Test","Crash Monitor","Rebalance","Buy Playbook","AI Thesis","Portfolio"];
 
 const fmt  = v => v>=1e6?`$${(v/1e6).toFixed(2)}M`:v>=1e3?`$${(v/1e3).toFixed(0)}K`:`$${Math.round(v)}`;
@@ -125,8 +125,18 @@ export default function App(){
   const [scenario,setScenario]=useState(()=>load("scenario","base"));
   const [crashYr,setCrashYr]=useState(()=>load("crashYr",5));
   const [crashDepth,setCrashDepth]=useState(()=>load("crashDepth",40));
-  const [prices,setPrices]=useState(()=>load("prices",{ VWRA:178.64, CSNDX:1500.60, CSPX:780.00, SMH:280.00 }));
-  const [ath,setAth]=useState(()=>load("ath",{ VWRA:178.64, CSNDX:1500.60, CSPX:780.00, SMH:280.00 }));
+  const [prices,setPrices]=useState(()=>{
+    const s=load("prices",null);
+    // Migrate: old prices used CSNDX/CSPX London exchange values — replace with QQQ/SPY values
+    if(!s||s.CSNDX>=1000||s.CSPX>=700) return {VWRA:150.84,CSNDX:648.97,CSPX:710.75,SMH:445.00};
+    return s;
+  });
+  const [ath,setAth]=useState(()=>{
+    const s=load("ath",null);
+    // Migrate: old ATH used CSNDX/CSPX London exchange values — replace with QQQ/SPY ATH
+    if(!s||s.CSNDX>=1000||s.CSPX>=700) return {VWRA:151.44,CSNDX:650.00,CSPX:712.39,SMH:464.58};
+    return s;
+  });
   const [warChest,setWarChest]=useState(()=>load("warChest",0));
   const [holdings,setHoldings]=useState(()=>load("holdings",{VWRA:0,CSNDX:0,CSPX:0,SMH:0}));
   const [rebalMode,setRebalMode]=useState(()=>load("rebalMode","sell"));
@@ -145,6 +155,9 @@ export default function App(){
   const [liveError,setLiveError]=useState("");
   const [liveData,setLiveData]=useState({}); // {VWRA:{price,change,marketState}, ...}
   const [lastLiveFetch,setLastLiveFetch]=useState("");
+  const [alertPrices,setAlertPrices]=useState(()=>load("alertPrices",{VWRA:0,CSNDX:0,CSPX:0,SMH:0}));
+  const [units,setUnits]=useState(()=>load("units",{VWRA:0,CSNDX:0,CSPX:0,SMH:0}));
+  const [usdSgd,setUsdSgd]=useState(()=>load("usdSgd",1.35));
   const raf=useRef(null);
 
   // Fetch live prices from our Vercel API route
@@ -170,8 +183,9 @@ export default function App(){
     setLiveLoading(false);
   }
 
-  // Auto-fetch on mount
+  // Auto-fetch on mount AND every time Crash Monitor tab is opened
   useEffect(()=>{ fetchLivePrices(); },[]);
+  useEffect(()=>{ if(tab==="Crash Monitor") fetchLivePrices(); },[tab]);
 
   // Save all state to localStorage whenever it changes
   useEffect(()=>{ save("lump",lump); },[lump]);
@@ -191,6 +205,9 @@ export default function App(){
   useEffect(()=>{ save("portfolioValue",portfolioValue); },[portfolioValue]);
   useEffect(()=>{ save("goldValue",goldValue); },[goldValue]);
   useEffect(()=>{ save("goldMonthly",goldMonthly); },[goldMonthly]);
+  useEffect(()=>{ save("alertPrices",alertPrices); },[alertPrices]);
+  useEffect(()=>{ save("units",units); },[units]);
+  useEffect(()=>{ save("usdSgd",usdSgd); },[usdSgd]);
 
   useEffect(()=>{
     setAnimP(0); let t0=null;
@@ -215,15 +232,15 @@ export default function App(){
   const stressFinal=stressD[years].stress;
   const chartD=baseD.map((d,i)=>({year:d.year,bear:bearD[i].value,base:d.value,bull:bullD[i].value}));
 
-  const C={background:CARD,border:`1px solid ${BORDER}`,borderRadius:16,padding:24};
-  const L={fontSize:10,letterSpacing:"0.14em",textTransform:"uppercase",color:DIM,marginBottom:6,fontFamily:"'IBM Plex Mono',monospace"};
-  const I={width:"100%",background:"#080b14",border:`1px solid ${BORDER}`,borderRadius:8,color:TEXT,padding:"9px 12px",fontSize:14,fontFamily:"'IBM Plex Mono',monospace",outline:"none",boxSizing:"border-box"};
+  const C={background:CARD,border:`1px solid ${BORDER}`,borderRadius:18,padding:24,boxShadow:"0 4px 24px rgba(99,102,241,0.07),0 1px 4px rgba(0,0,0,0.04)"};
+  const L={fontSize:11,letterSpacing:"0.12em",textTransform:"uppercase",color:DIM,marginBottom:6,fontFamily:"'IBM Plex Mono',monospace",fontWeight:700};
+  const I={width:"100%",background:SURFACE,border:`1.5px solid ${BORDER}`,borderRadius:10,color:TEXT,padding:"10px 14px",fontSize:14,fontFamily:"'IBM Plex Mono',monospace",outline:"none",boxSizing:"border-box",transition:"border-color 0.2s"};
 
   const Tip=({active,payload,label:yr})=>{
     if(!active||!payload?.length) return null;
     const N={bear:"Bear",base:"Base",bull:"Bull",stress:"Crash",normal:"No crash"};
     return(
-      <div style={{background:"#080b14",border:`1px solid ${BORDER}`,borderRadius:10,padding:"12px 16px"}}>
+      <div style={{background:"#ffffff",border:`1px solid ${BORDER}`,borderRadius:10,padding:"12px 16px",boxShadow:"0 2px 8px rgba(0,0,0,0.08)"}}>
         <div style={{color:DIM,fontSize:11,marginBottom:8,fontFamily:"'IBM Plex Mono',monospace"}}>YEAR {yr}</div>
         {payload.map(p=><div key={p.name} style={{color:p.color||TEXT,fontSize:12,marginBottom:3,fontFamily:"'IBM Plex Mono',monospace"}}>{N[p.name]||p.name}: {fmt(p.value)}</div>)}
       </div>
@@ -233,29 +250,30 @@ export default function App(){
   return(
     <div style={{minHeight:"100vh",background:BG,color:TEXT,fontFamily:"'Plus Jakarta Sans',sans-serif",paddingBottom:60}}>
       <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+      <style>{`@keyframes wb-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
 
       {/* HEADER */}
-      <div style={{background:SURFACE,borderBottom:`1px solid ${BORDER}`,padding:"22px 24px 0"}}>
+      <div style={{background:"linear-gradient(135deg,#1e1b4b 0%,#312e81 55%,#4338ca 100%)",padding:"22px 24px 0",boxShadow:"0 4px 24px rgba(30,27,75,0.18)"}}>
         <div style={{maxWidth:960,margin:"0 auto"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:14,paddingBottom:18}}>
             <div>
-              <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:38,letterSpacing:2,lineHeight:1}}>WEALTH<span style={{color:GOLD}}>BUILDER</span></div>
-              <div style={{color:DIM,fontSize:11,marginTop:4,fontFamily:"'IBM Plex Mono',monospace",letterSpacing:"0.1em"}}>SGP · UCITS · 20YR DCA · AI PRODUCTIVITY THESIS</div>
+              <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:42,letterSpacing:2,lineHeight:1,color:"#ffffff"}}>WEALTH<span style={{color:GOLD}}>BUILDER</span></div>
+              <div style={{color:"rgba(255,255,255,0.55)",fontSize:11,marginTop:5,fontFamily:"'IBM Plex Mono',monospace",letterSpacing:"0.12em"}}>SGP · UCITS · 20YR DCA · AI PRODUCTIVITY THESIS</div>
             </div>
             <div style={{display:"flex",gap:7,flexWrap:"wrap",alignItems:"center"}}>
               {Object.entries(PORTFOLIO).map(([k,v])=>(
-                <div key={k} style={{padding:"4px 10px",borderRadius:20,fontSize:11,background:`${v.color}15`,border:`1px solid ${v.color}35`,color:v.color,fontFamily:"'IBM Plex Mono',monospace"}}>{k} {(v.alloc*100).toFixed(0)}%</div>
+                <div key={k} style={{padding:"5px 11px",borderRadius:20,fontSize:11,background:"rgba(255,255,255,0.12)",border:`1px solid rgba(255,255,255,0.22)`,color:"#ffffff",fontFamily:"'IBM Plex Mono',monospace",fontWeight:600}}><span style={{color:v.color}}>●</span> {k} {(v.alloc*100).toFixed(0)}%</div>
               ))}
-              <div style={{color:DIM,fontSize:10,fontFamily:"'IBM Plex Mono',monospace"}}>TER {fmtP(BLENDED_TER)}</div>
+              <div style={{color:"rgba(255,255,255,0.45)",fontSize:10,fontFamily:"'IBM Plex Mono',monospace"}}>TER {fmtP(BLENDED_TER)}</div>
               <div style={{display:"flex",alignItems:"center",gap:8}}>
-                <div style={{fontSize:10,color:GREEN,fontFamily:"'IBM Plex Mono',monospace",background:`${GREEN}15`,padding:"3px 9px",borderRadius:10,border:`1px solid ${GREEN}30`}}>● AUTO-SAVED</div>
-                <button onClick={()=>{ if(window.confirm("Reset all data? This cannot be undone.")){ localStorage.clear(); window.location.reload(); } }} style={{fontSize:10,color:DIM,background:"transparent",border:`1px solid ${MUTED}`,borderRadius:8,padding:"3px 9px",cursor:"pointer",fontFamily:"'IBM Plex Mono',monospace"}}>Reset</button>
+                <div style={{fontSize:10,color:"#6ee7b7",fontFamily:"'IBM Plex Mono',monospace",background:"rgba(16,185,129,0.15)",padding:"4px 10px",borderRadius:10,border:"1px solid rgba(16,185,129,0.3)"}}>● AUTO-SAVED</div>
+                <button onClick={()=>{ if(window.confirm("Reset all data? This cannot be undone.")){ localStorage.clear(); window.location.reload(); } }} style={{fontSize:10,color:"rgba(255,255,255,0.5)",background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.2)",borderRadius:8,padding:"4px 10px",cursor:"pointer",fontFamily:"'IBM Plex Mono',monospace"}}>Reset</button>
               </div>
             </div>
           </div>
-          <div style={{display:"flex",gap:2,flexWrap:"wrap"}}>
+          <div style={{display:"flex",gap:1,flexWrap:"wrap"}}>
             {TABS.map(t=>(
-              <button key={t} onClick={()=>setTab(t)} style={{padding:"8px 14px",borderRadius:"7px 7px 0 0",fontSize:11,cursor:"pointer",fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:500,background:tab===t?BG:"transparent",color:tab===t?GOLD:DIM,border:`1px solid ${tab===t?BORDER:"transparent"}`,borderBottom:tab===t?`1px solid ${BG}`:"none"}}>
+              <button key={t} onClick={()=>setTab(t)} style={{padding:"10px 16px",borderRadius:"0",fontSize:12,cursor:"pointer",fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:600,background:"transparent",color:tab===t?"#ffffff":"rgba(255,255,255,0.5)",border:"none",borderBottom:tab===t?`3px solid ${GOLD}`:"3px solid transparent",transition:"all 0.18s",letterSpacing:"0.01em"}}>
                 {t}
               </button>
             ))}
@@ -344,6 +362,32 @@ export default function App(){
                 <div style={{fontSize:15,fontWeight:500,lineHeight:1.7,color:TEXT,fontStyle:"italic",maxWidth:700}}>"{quote.q}"</div>
                 <div style={{color:GOLD,fontSize:12,marginTop:10,fontFamily:"'IBM Plex Mono',monospace"}}>— {quote.a}</div>
                 <div style={{color:DIM,fontSize:10,marginTop:8}}>Your 20-year journey started. Every month you DCA is a vote for your future self.</div>
+              </div>
+
+              {/* DCA Progress Bar */}
+              <div style={{...C,position:"relative",overflow:"hidden"}}>
+                <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg,${BLUE} ${Math.min((monthsInvested/240)*100*ease(animP),100)}%,${MUTED} 0%)`}}/>
+                <div style={{...L,color:BLUE,marginBottom:12}}>DCA Journey — {monthsInvested} of 240 Months</div>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:11,marginBottom:14}}>
+                  {[["Months Invested",`${monthsInvested} / 240`,BLUE],["Invested So Far",fmt(totalInvested),GREEN],["Months Remaining",`${Math.max(240-monthsInvested,0)}`,DIM],["Journey",`${((monthsInvested/240)*100).toFixed(1)}%`,GOLD]].map(([lbl,v,c])=>(
+                    <div key={lbl}>
+                      <div style={L}>{lbl}</div>
+                      <div style={{fontFamily:"'IBM Plex Mono',monospace",color:c,fontSize:15,fontWeight:500}}>{v}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{position:"relative",height:12,background:MUTED,borderRadius:6,overflow:"hidden"}}>
+                  <div style={{width:`${Math.min((monthsInvested/240)*100,100)*ease(animP)}%`,height:"100%",background:`linear-gradient(90deg,${BLUE},${GREEN})`,borderRadius:6,transition:"width 0.6s"}}/>
+                  {[60,120,180].map(m=>(
+                    <div key={m} style={{position:"absolute",left:`${(m/240)*100}%`,top:0,bottom:0,width:1,background:"rgba(255,255,255,0.6)"}}/>
+                  ))}
+                </div>
+                <div style={{display:"flex",justifyContent:"space-between",marginTop:6}}>
+                  {["Start","Yr 5","Yr 10","Yr 15","Yr 20 🎯"].map(lbl=>(
+                    <div key={lbl} style={{fontSize:9,color:DIM,fontFamily:"'IBM Plex Mono',monospace"}}>{lbl}</div>
+                  ))}
+                </div>
+                {monthsInvested===0&&<div style={{color:DIM,fontSize:12,marginTop:10,textAlign:"center"}}>Log your first DCA below to start your journey tracker. 🚀</div>}
               </div>
 
               {/* Total Wealth snapshot */}
@@ -451,7 +495,7 @@ export default function App(){
                     if(!newDcaDate||!newDcaAmt) return;
                     setDcaLog(l=>[...l,{date:newDcaDate,amount:newDcaAmt,note:newDcaNote}].sort((a,b)=>a.date.localeCompare(b.date)));
                     setNewDcaNote("");
-                  }} style={{padding:"9px 16px",borderRadius:8,background:GREEN,color:"#060810",border:"none",cursor:"pointer",fontWeight:700,fontSize:12,fontFamily:"'IBM Plex Mono',monospace",whiteSpace:"nowrap"}}>
+                  }} style={{padding:"9px 16px",borderRadius:8,background:GREEN,color:"#ffffff",border:"none",cursor:"pointer",fontWeight:700,fontSize:12,fontFamily:"'IBM Plex Mono',monospace",whiteSpace:"nowrap"}}>
                     + Log
                   </button>
                 </div>
@@ -658,8 +702,9 @@ export default function App(){
                     </div>
                   </div>
                   <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:10}}>
-                    <button onClick={fetchLivePrices} disabled={liveLoading} style={{padding:"8px 16px",borderRadius:8,background:liveLoading?MUTED:GREEN,color:"#060810",border:"none",cursor:liveLoading?"not-allowed":"pointer",fontWeight:700,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",whiteSpace:"nowrap"}}>
-                      {liveLoading?"Fetching...":"⟳ Refresh Prices"}
+                    <button onClick={fetchLivePrices} disabled={liveLoading} style={{padding:"8px 16px",borderRadius:8,background:liveLoading?MUTED:GREEN,color:"#ffffff",border:"none",cursor:liveLoading?"not-allowed":"pointer",fontWeight:700,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",whiteSpace:"nowrap",display:"flex",alignItems:"center",gap:5}}>
+                      <span style={{display:"inline-block",...(liveLoading?{animation:"wb-spin 0.7s linear infinite"}:{})}}>⟳</span>
+                      {liveLoading?"Fetching...":"Refresh Prices"}
                     </button>
                     <div style={{textAlign:"right"}}>
                       <div style={L}>Suggested Deploy</div>
@@ -670,12 +715,70 @@ export default function App(){
                 </div>
               </div>
 
+              {/* PORTFOLIO VALUE TRACKER */}
+              {(()=>{
+                const totalUSD=Object.entries(units).reduce((s,[k,v])=>s+(v||0)*prices[k],0);
+                const totalSGD=totalUSD*usdSgd;
+                const hasUnits=Object.values(units).some(v=>v>0);
+                return(
+                  <div style={C}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:10,marginBottom:14}}>
+                      <div style={{...L,marginBottom:0}}>Live Portfolio Value (Units × Current Price)</div>
+                      <div style={{display:"flex",alignItems:"center",gap:8}}>
+                        <span style={{color:DIM,fontSize:11,fontFamily:"'IBM Plex Mono',monospace"}}>USD/SGD rate</span>
+                        <input type="number" step="0.001" min={1} max={2} value={usdSgd}
+                          onChange={e=>setUsdSgd(parseFloat(e.target.value)||1.35)}
+                          style={{...I,width:78,fontSize:12,padding:"5px 8px"}}/>
+                      </div>
+                    </div>
+                    <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:9,marginBottom:hasUnits?14:0}}>
+                      {Object.entries(PORTFOLIO).map(([k,v])=>{
+                        const val=(units[k]||0)*prices[k];
+                        return(
+                          <div key={k} style={{background:SURFACE,border:`1px solid ${BORDER}`,borderRadius:10,padding:12}}>
+                            <div style={{fontFamily:"'IBM Plex Mono',monospace",color:v.color,fontSize:13,fontWeight:600,marginBottom:6}}>{k}</div>
+                            <div style={L}>Units / Shares</div>
+                            <input type="number" step="1" min={0} value={units[k]||""} placeholder="0"
+                              onChange={e=>setUnits(u=>({...u,[k]:parseFloat(e.target.value)||0}))}
+                              style={{...I,fontSize:13,color:v.color,marginBottom:6}}/>
+                            <div style={{color:units[k]>0?v.color:DIM,fontSize:11,fontFamily:"'IBM Plex Mono',monospace"}}>
+                              {units[k]>0?`$${val.toLocaleString(undefined,{maximumFractionDigits:0})} USD`:"—"}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {hasUnits&&(
+                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:11,paddingTop:14,borderTop:`1px solid ${BORDER}`}}>
+                        <div>
+                          <div style={L}>Total Value (USD)</div>
+                          <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:30,color:GREEN,letterSpacing:1,lineHeight:1}}>${totalUSD.toLocaleString(undefined,{maximumFractionDigits:0})}</div>
+                        </div>
+                        <div>
+                          <div style={L}>Total Value (SGD)</div>
+                          <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:30,color:BLUE,letterSpacing:1,lineHeight:1}}>S${totalSGD.toLocaleString(undefined,{maximumFractionDigits:0})}</div>
+                        </div>
+                        <div>
+                          <div style={L}>% of {fmt(goal)} Goal</div>
+                          <div style={{fontFamily:"'IBM Plex Mono',monospace",fontSize:22,color:totalUSD>=goal?GREEN:GOLD,fontWeight:500}}>{((totalUSD/goal)*100).toFixed(1)}%</div>
+                          <div style={{height:5,background:MUTED,borderRadius:4,overflow:"hidden",marginTop:6}}>
+                            <div style={{width:`${Math.min((totalUSD/goal)*100,100)}%`,height:"100%",background:`linear-gradient(90deg,${BLUE},${GREEN})`,borderRadius:4,transition:"width 0.4s"}}/>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {!hasUnits&&<div style={{color:DIM,fontSize:12,textAlign:"center",paddingBottom:4}}>Enter the number of units/shares you own above to see your live portfolio value in USD and SGD.</div>}
+                  </div>
+                );
+              })()}
+
               {sigs.map(({ticker,price,drop,sig,recov,athP})=>{
                 const etf=PORTFOLIO[ticker];
                 const live=liveData[ticker];
                 const proxyMap={VWRA:"VT",CSNDX:"QQQ",CSPX:"SPY",SMH:"SMH"};
+                const inBuyZone=alertPrices[ticker]>0&&price<=alertPrices[ticker];
                 return(
-                  <div key={ticker} style={{...C,border:`1px solid ${sig.deploy>0?sig.color+"40":BORDER}`,background:sig.deploy>0?`${sig.color}06`:CARD}}>
+                  <div key={ticker} style={{...C,border:`1px solid ${inBuyZone?GREEN+"70":sig.deploy>0?sig.color+"40":BORDER}`,background:inBuyZone?`${GREEN}09`:sig.deploy>0?`${sig.color}06`:CARD}}>
                     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:18,alignItems:"start"}}>
                       <div>
                         <div style={{display:"flex",alignItems:"center",gap:9,marginBottom:6}}>
@@ -696,6 +799,14 @@ export default function App(){
                           onChange={e=>{setPrices(p=>({...p,[ticker]:parseFloat(e.target.value)||0}));setLastChecked(new Date().toLocaleString("en-SG"));}}
                           style={{...I,fontSize:16,color:etf.color,fontWeight:600,width:150}}/>
                         <div style={{color:DIM,fontSize:10,marginTop:5,fontFamily:"'IBM Plex Mono',monospace"}}>ATH: ${athP.toFixed(2)}</div>
+                        <div style={{marginTop:10}}>
+                          <div style={L}>Alert / Buy Zone Price</div>
+                          <input type="number" step="0.01" value={alertPrices[ticker]||""} placeholder="0 = off"
+                            onChange={e=>setAlertPrices(a=>({...a,[ticker]:parseFloat(e.target.value)||0}))}
+                            style={{...I,fontSize:12,color:inBuyZone?GREEN:etf.color,width:140,border:inBuyZone?`1.5px solid ${GREEN}`:`1.5px solid ${BORDER}`}}/>
+                          {inBuyZone&&<div style={{color:GREEN,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",marginTop:4,fontWeight:700}}>🟢 IN BUY ZONE!</div>}
+                          {alertPrices[ticker]>0&&!inBuyZone&&<div style={{color:DIM,fontSize:10,marginTop:3,fontFamily:"'IBM Plex Mono',monospace"}}>+${(price-alertPrices[ticker]).toFixed(2)} above target</div>}
+                        </div>
                       </div>
                       <div>
                         <div style={L}>Drop from ATH</div>
