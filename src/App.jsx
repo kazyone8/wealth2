@@ -233,23 +233,23 @@ export default function App(){
   const chartD=baseD.map((d,i)=>({year:d.year,bear:bearD[i].value,base:d.value,bull:bullD[i].value}));
 
   const C={background:CARD,border:`1px solid ${BORDER}`,borderRadius:18,padding:24,boxShadow:"0 4px 24px rgba(99,102,241,0.07),0 1px 4px rgba(0,0,0,0.04)"};
-  const L={fontSize:11,letterSpacing:"0.12em",textTransform:"uppercase",color:DIM,marginBottom:6,fontFamily:"'IBM Plex Mono',monospace",fontWeight:700};
-  const I={width:"100%",background:SURFACE,border:`1.5px solid ${BORDER}`,borderRadius:10,color:TEXT,padding:"10px 14px",fontSize:14,fontFamily:"'IBM Plex Mono',monospace",outline:"none",boxSizing:"border-box",transition:"border-color 0.2s"};
+  const L={fontSize:13,letterSpacing:"0.07em",textTransform:"uppercase",color:DIM,marginBottom:7,fontFamily:"'Outfit',sans-serif",fontWeight:600};
+  const I={width:"100%",background:SURFACE,border:`1.5px solid ${BORDER}`,borderRadius:10,color:TEXT,padding:"10px 14px",fontSize:15,fontFamily:"'Outfit',sans-serif",outline:"none",boxSizing:"border-box",transition:"border-color 0.2s"};
 
   const Tip=({active,payload,label:yr})=>{
     if(!active||!payload?.length) return null;
     const N={bear:"Bear",base:"Base",bull:"Bull",stress:"Crash",normal:"No crash"};
     return(
       <div style={{background:"#ffffff",border:`1px solid ${BORDER}`,borderRadius:10,padding:"12px 16px",boxShadow:"0 2px 8px rgba(0,0,0,0.08)"}}>
-        <div style={{color:DIM,fontSize:11,marginBottom:8,fontFamily:"'IBM Plex Mono',monospace"}}>YEAR {yr}</div>
-        {payload.map(p=><div key={p.name} style={{color:p.color||TEXT,fontSize:12,marginBottom:3,fontFamily:"'IBM Plex Mono',monospace"}}>{N[p.name]||p.name}: {fmt(p.value)}</div>)}
+        <div style={{color:DIM,fontSize:13,marginBottom:8,fontFamily:"'IBM Plex Mono',monospace"}}>YEAR {yr}</div>
+        {payload.map(p=><div key={p.name} style={{color:p.color||TEXT,fontSize:13,marginBottom:3,fontFamily:"'IBM Plex Mono',monospace"}}>{N[p.name]||p.name}: {fmt(p.value)}</div>)}
       </div>
     );
   };
 
   return(
-    <div style={{minHeight:"100vh",background:BG,color:TEXT,fontFamily:"'Plus Jakarta Sans',sans-serif",paddingBottom:60}}>
-      <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+    <div style={{minHeight:"100vh",background:BG,color:TEXT,fontFamily:"'Outfit',sans-serif",paddingBottom:60}}>
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
       <style>{`@keyframes wb-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
 
       {/* HEADER */}
@@ -258,11 +258,11 @@ export default function App(){
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:14,paddingBottom:18}}>
             <div>
               <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:42,letterSpacing:2,lineHeight:1,color:"#ffffff"}}>WEALTH<span style={{color:GOLD}}>BUILDER</span></div>
-              <div style={{color:"rgba(255,255,255,0.55)",fontSize:11,marginTop:5,fontFamily:"'IBM Plex Mono',monospace",letterSpacing:"0.12em"}}>SGP · UCITS · 20YR DCA · AI PRODUCTIVITY THESIS</div>
+              <div style={{color:"rgba(255,255,255,0.55)",fontSize:13,marginTop:5,fontFamily:"'IBM Plex Mono',monospace",letterSpacing:"0.12em"}}>SGP · UCITS · 20YR DCA · AI PRODUCTIVITY THESIS</div>
             </div>
             <div style={{display:"flex",gap:7,flexWrap:"wrap",alignItems:"center"}}>
               {Object.entries(PORTFOLIO).map(([k,v])=>(
-                <div key={k} style={{padding:"5px 11px",borderRadius:20,fontSize:11,background:"rgba(255,255,255,0.12)",border:`1px solid rgba(255,255,255,0.22)`,color:"#ffffff",fontFamily:"'IBM Plex Mono',monospace",fontWeight:600}}><span style={{color:v.color}}>●</span> {k} {(v.alloc*100).toFixed(0)}%</div>
+                <div key={k} style={{padding:"5px 11px",borderRadius:20,fontSize:13,background:"rgba(255,255,255,0.12)",border:`1px solid rgba(255,255,255,0.22)`,color:"#ffffff",fontFamily:"'IBM Plex Mono',monospace",fontWeight:600}}><span style={{color:v.color}}>●</span> {k} {(v.alloc*100).toFixed(0)}%</div>
               ))}
               <div style={{color:"rgba(255,255,255,0.45)",fontSize:10,fontFamily:"'IBM Plex Mono',monospace"}}>TER {fmtP(BLENDED_TER)}</div>
               <div style={{display:"flex",alignItems:"center",gap:8}}>
@@ -273,7 +273,7 @@ export default function App(){
           </div>
           <div style={{display:"flex",gap:1,flexWrap:"wrap"}}>
             {TABS.map(t=>(
-              <button key={t} onClick={()=>setTab(t)} style={{padding:"10px 16px",borderRadius:"0",fontSize:12,cursor:"pointer",fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:600,background:"transparent",color:tab===t?"#ffffff":"rgba(255,255,255,0.5)",border:"none",borderBottom:tab===t?`3px solid ${GOLD}`:"3px solid transparent",transition:"all 0.18s",letterSpacing:"0.01em"}}>
+              <button key={t} onClick={()=>setTab(t)} style={{padding:"10px 16px",borderRadius:"0",fontSize:13,cursor:"pointer",fontFamily:"'Outfit',sans-serif",fontWeight:600,background:"transparent",color:tab===t?"#ffffff":"rgba(255,255,255,0.5)",border:"none",borderBottom:tab===t?`3px solid ${GOLD}`:"3px solid transparent",transition:"all 0.18s",letterSpacing:"0.01em"}}>
                 {t}
               </button>
             ))}
@@ -293,7 +293,7 @@ export default function App(){
                 <div>
                   <div style={L}>Projected · {scenario} · Year {years}</div>
                   <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:50,letterSpacing:1,color:onTrack?GREEN:RED,lineHeight:1}}>{fmt(anim(fCur))}</div>
-                  <div style={{color:DIM,fontSize:12,marginTop:5}}>Goal <span style={{color:GOLD,fontFamily:"'IBM Plex Mono',monospace"}}>{fmt(goal)}</span> &nbsp;<span style={{color:onTrack?GREEN:RED}}>{onTrack?`+${fmt(fCur-goal)} surplus`:`−${fmt(goal-fCur)} short`}</span></div>
+                  <div style={{color:DIM,fontSize:13,marginTop:5}}>Goal <span style={{color:GOLD,fontFamily:"'IBM Plex Mono',monospace"}}>{fmt(goal)}</span> &nbsp;<span style={{color:onTrack?GREEN:RED}}>{onTrack?`+${fmt(fCur-goal)} surplus`:`−${fmt(goal-fCur)} short`}</span></div>
                 </div>
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
                   {[["Contributed",contributed,TEXT],["Market Gains",gains,GREEN],["Lump Sum",lump,BLUE],["Monthly DCA",monthly,GOLD]].map(([lbl,v,c])=>(
@@ -310,14 +310,14 @@ export default function App(){
                 <div key={s} onClick={()=>setScenario(s)} style={{...C,cursor:"pointer",border:`1px solid ${scenario===s?c+"70":BORDER}`,background:scenario===s?`${c}0c`:CARD,transition:"all 0.2s"}}>
                   <div style={{...L,color:c}}>{s} case</div>
                   <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:28,color:c,letterSpacing:1}}>{fmt(v)}</div>
-                  <div style={{color:DIM,fontSize:11,marginTop:3,fontFamily:"'IBM Plex Mono',monospace"}}>{fmtP(r)}/yr blended</div>
+                  <div style={{color:DIM,fontSize:13,marginTop:3,fontFamily:"'IBM Plex Mono',monospace"}}>{fmtP(r)}/yr blended</div>
                 </div>
               ))}
             </div>
             <div style={{...C,background:onTrack?`${GREEN}08`:`${RED}08`,border:`1px solid ${onTrack?GREEN:RED}30`}}>
               {onTrack
-                ?<><div style={{color:GREEN,fontWeight:600,fontSize:13}}>✓ On track to reach {fmt(goal)}</div><div style={{color:DIM,fontSize:12,marginTop:4}}>Keep your ${monthly.toLocaleString()}/mo DCA consistent. Don't stop during downturns — that's when you buy the most units.</div></>
-                :<><div style={{color:RED,fontWeight:600,fontSize:13}}>Need +${Math.round(reqMo(lump,curR,years,goal)-monthly).toLocaleString()}/mo more to hit goal</div><div style={{color:DIM,fontSize:12,marginTop:4}}>Required: <span style={{color:RED,fontFamily:"'IBM Plex Mono',monospace"}}>${Math.round(reqMo(lump,curR,years,goal)).toLocaleString()}/mo</span></div></>
+                ?<><div style={{color:GREEN,fontWeight:600,fontSize:13}}>✓ On track to reach {fmt(goal)}</div><div style={{color:DIM,fontSize:13,marginTop:4}}>Keep your ${monthly.toLocaleString()}/mo DCA consistent. Don't stop during downturns — that's when you buy the most units.</div></>
+                :<><div style={{color:RED,fontWeight:600,fontSize:13}}>Need +${Math.round(reqMo(lump,curR,years,goal)-monthly).toLocaleString()}/mo more to hit goal</div><div style={{color:DIM,fontSize:13,marginTop:4}}>Required: <span style={{color:RED,fontFamily:"'IBM Plex Mono',monospace"}}>${Math.round(reqMo(lump,curR,years,goal)).toLocaleString()}/mo</span></div></>
               }
             </div>
             <div style={C}>
@@ -360,7 +360,7 @@ export default function App(){
               <div style={{...C,background:`linear-gradient(135deg,${GOLD}12,${BLUE}08)`,border:`1px solid ${GOLD}35`,position:"relative",overflow:"hidden"}}>
                 <div style={{position:"absolute",top:-10,right:-10,fontSize:120,opacity:0.04,lineHeight:1}}>"</div>
                 <div style={{fontSize:15,fontWeight:500,lineHeight:1.7,color:TEXT,fontStyle:"italic",maxWidth:700}}>"{quote.q}"</div>
-                <div style={{color:GOLD,fontSize:12,marginTop:10,fontFamily:"'IBM Plex Mono',monospace"}}>— {quote.a}</div>
+                <div style={{color:GOLD,fontSize:13,marginTop:10,fontFamily:"'IBM Plex Mono',monospace"}}>— {quote.a}</div>
                 <div style={{color:DIM,fontSize:10,marginTop:8}}>Your 20-year journey started. Every month you DCA is a vote for your future self.</div>
               </div>
 
@@ -387,7 +387,7 @@ export default function App(){
                     <div key={lbl} style={{fontSize:9,color:DIM,fontFamily:"'IBM Plex Mono',monospace"}}>{lbl}</div>
                   ))}
                 </div>
-                {monthsInvested===0&&<div style={{color:DIM,fontSize:12,marginTop:10,textAlign:"center"}}>Log your first DCA below to start your journey tracker. 🚀</div>}
+                {monthsInvested===0&&<div style={{color:DIM,fontSize:13,marginTop:10,textAlign:"center"}}>Log your first DCA below to start your journey tracker. 🚀</div>}
               </div>
 
               {/* Total Wealth snapshot */}
@@ -414,15 +414,15 @@ export default function App(){
                     <input type="number" min={0} step={100} value={portfolioValue||""} placeholder="e.g. 95000"
                       onChange={e=>setPortfolioValue(parseFloat(e.target.value)||0)}
                       style={{...I,fontSize:16,color:GREEN}}/>
-                    <div style={{color:DIM,fontSize:11,marginTop:5}}>Check your broker for total portfolio value</div>
+                    <div style={{color:DIM,fontSize:13,marginTop:5}}>Check your broker for total portfolio value</div>
                   </div>
                   <div>
                     <div style={L}>Gold Portfolio Total ($)</div>
                     <input type="number" min={0} step={100} value={goldValue||""} placeholder="e.g. 12000"
                       onChange={e=>setGoldValue(parseFloat(e.target.value)||0)}
                       style={{...I,fontSize:16,color:"#ffd54f"}}/>
-                    <div style={{color:DIM,fontSize:11,marginTop:5}}>Gold DCA: <span style={{color:"#ffd54f",fontFamily:"'IBM Plex Mono',monospace"}}>${goldMonthly}/mo</span> &nbsp;
-                      <input type="number" value={goldMonthly} onChange={e=>setGoldMonthly(Number(e.target.value))} style={{...I,width:80,fontSize:12,display:"inline",padding:"4px 8px"}}/>
+                    <div style={{color:DIM,fontSize:13,marginTop:5}}>Gold DCA: <span style={{color:"#ffd54f",fontFamily:"'IBM Plex Mono',monospace"}}>${goldMonthly}/mo</span> &nbsp;
+                      <input type="number" value={goldMonthly} onChange={e=>setGoldMonthly(Number(e.target.value))} style={{...I,width:80,fontSize:13,display:"inline",padding:"4px 8px"}}/>
                     </div>
                   </div>
                 </div>
@@ -471,7 +471,7 @@ export default function App(){
                       </div>
                     ))}
                   </div>
-                  <div style={{color:DIM,fontSize:11,marginTop:10}}>Gold projected at ~6% base annual return. Held separately as geopolitical hedge.</div>
+                  <div style={{color:DIM,fontSize:13,marginTop:10}}>Gold projected at ~6% base annual return. Held separately as geopolitical hedge.</div>
                 </div>
               )}
 
@@ -495,7 +495,7 @@ export default function App(){
                     if(!newDcaDate||!newDcaAmt) return;
                     setDcaLog(l=>[...l,{date:newDcaDate,amount:newDcaAmt,note:newDcaNote}].sort((a,b)=>a.date.localeCompare(b.date)));
                     setNewDcaNote("");
-                  }} style={{padding:"9px 16px",borderRadius:8,background:GREEN,color:"#ffffff",border:"none",cursor:"pointer",fontWeight:700,fontSize:12,fontFamily:"'IBM Plex Mono',monospace",whiteSpace:"nowrap"}}>
+                  }} style={{padding:"9px 16px",borderRadius:8,background:GREEN,color:"#ffffff",border:"none",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"'IBM Plex Mono',monospace",whiteSpace:"nowrap"}}>
                     + Log
                   </button>
                 </div>
@@ -521,7 +521,7 @@ export default function App(){
                 ):(
                   <div style={{textAlign:"center",padding:"28px",color:DIM,fontSize:13}}>
                     No DCA entries yet. Log your first investment above. 🚀<br/>
-                    <span style={{fontSize:11,marginTop:6,display:"block"}}>Every entry is a step toward {fmt(goal)}.</span>
+                    <span style={{fontSize:13,marginTop:6,display:"block"}}>Every entry is a step toward {fmt(goal)}.</span>
                   </div>
                 )}
               </div>
@@ -535,10 +535,10 @@ export default function App(){
                   <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
                     <div>
                       <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:44,color:GREEN,letterSpacing:1,lineHeight:1}}>{dcaLog.length} <span style={{fontSize:20}}>months</span></div>
-                      <div style={{color:DIM,fontSize:12,marginTop:4}}>of consistent DCA. Keep going — the next 20 years belong to you.</div>
+                      <div style={{color:DIM,fontSize:13,marginTop:4}}>of consistent DCA. Keep going — the next 20 years belong to you.</div>
                     </div>
                     <div>
-                      <div style={{color:DIM,fontSize:12,lineHeight:1.8}}>
+                      <div style={{color:DIM,fontSize:13,lineHeight:1.8}}>
                         {dcaLog.length>=3&&<div style={{color:GREEN}}>✓ Consistency established</div>}
                         {dcaLog.length>=6&&<div style={{color:GREEN}}>✓ 6-month milestone hit</div>}
                         {dcaLog.length>=12&&<div style={{color:GREEN}}>✓ First full year complete 🎉</div>}
@@ -565,8 +565,8 @@ export default function App(){
                     <div key={i} style={{display:"flex",gap:14,alignItems:"flex-start",background:SURFACE,border:`1px solid ${BORDER}`,borderRadius:10,padding:"14px 16px"}}>
                       <div style={{fontSize:22,flexShrink:0}}>{m.icon}</div>
                       <div>
-                        <div style={{color:GOLD,fontSize:12,fontWeight:600,marginBottom:4}}>{m.title}</div>
-                        <div style={{color:DIM,fontSize:12,lineHeight:1.7}}>{m.body}</div>
+                        <div style={{color:GOLD,fontSize:13,fontWeight:600,marginBottom:4}}>{m.title}</div>
+                        <div style={{color:DIM,fontSize:13,lineHeight:1.7}}>{m.body}</div>
                       </div>
                     </div>
                   ))}
@@ -618,7 +618,7 @@ export default function App(){
                     <div key={y} style={{background:SURFACE,border:`1px solid ${BORDER}`,borderRadius:11,padding:14}}>
                       <div style={L}>Year {y}</div>
                       <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:24,color:TEXT,letterSpacing:1}}>{fmt(v)}</div>
-                      <div style={{color:GREEN,fontSize:11,marginTop:3,fontFamily:"'IBM Plex Mono',monospace"}}>+{fmt(g)}</div>
+                      <div style={{color:GREEN,fontSize:13,marginTop:3,fontFamily:"'IBM Plex Mono',monospace"}}>+{fmt(g)}</div>
                       <div style={{color:DIM,fontSize:10,marginTop:2}}>{(v/co).toFixed(1)}× your money</div>
                     </div>
                   );
@@ -633,7 +633,7 @@ export default function App(){
           <div style={{display:"grid",gap:14}}>
             <div style={C}>
               <div style={{...L,marginBottom:4}}>Crash Simulation — Keep DCA-ing Through It</div>
-              <div style={{color:DIM,fontSize:12,marginBottom:18}}>Drag to simulate a crash at any point in your journey.</div>
+              <div style={{color:DIM,fontSize:13,marginBottom:18}}>Drag to simulate a crash at any point in your journey.</div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:18,marginBottom:22}}>
                 <div>
                   <div style={L}>Crash Hits in Year</div>
@@ -668,7 +668,7 @@ export default function App(){
             </div>
             <div style={{...C,background:`${GREEN}07`,border:`1px solid ${GREEN}20`}}>
               <div style={{color:GREEN,fontWeight:600,fontSize:13,marginBottom:7}}>Why DCA investors win through crashes</div>
-              <div style={{color:DIM,fontSize:12,lineHeight:1.75}}>A −{crashDepth}% crash in year {crashYr} means your ${monthly.toLocaleString()}/mo buys <strong style={{color:TEXT}}>{(100/(100-crashDepth)).toFixed(1)}× more units</strong> at depressed prices. Disciplined DCA investors who kept buying through 2000–2003 and 2008–2009 <span style={{color:GREEN}}>outperformed those who paused.</span></div>
+              <div style={{color:DIM,fontSize:13,lineHeight:1.75}}>A −{crashDepth}% crash in year {crashYr} means your ${monthly.toLocaleString()}/mo buys <strong style={{color:TEXT}}>{(100/(100-crashDepth)).toFixed(1)}× more units</strong> at depressed prices. Disciplined DCA investors who kept buying through 2000–2003 and 2008–2009 <span style={{color:GREEN}}>outperformed those who paused.</span></div>
             </div>
           </div>
         )}
@@ -694,7 +694,7 @@ export default function App(){
                   <div>
                     <div style={L}>Portfolio Signal — Live Prices via Yahoo Finance</div>
                     <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:40,color:ov.color,letterSpacing:2,lineHeight:1}}>{ov.label}</div>
-                    <div style={{color:DIM,fontSize:12,marginTop:5}}>Weighted drop from ATH: <span style={{color:ov.color,fontFamily:"'IBM Plex Mono',monospace"}}>{wDrop.toFixed(1)}%</span></div>
+                    <div style={{color:DIM,fontSize:13,marginTop:5}}>Weighted drop from ATH: <span style={{color:ov.color,fontFamily:"'IBM Plex Mono',monospace"}}>{wDrop.toFixed(1)}%</span></div>
                     <div style={{display:"flex",alignItems:"center",gap:10,marginTop:6,flexWrap:"wrap"}}>
                       {lastLiveFetch&&<div style={{color:GREEN,fontSize:10,fontFamily:"'IBM Plex Mono',monospace"}}>● Updated: {lastLiveFetch}</div>}
                       {liveError&&<div style={{color:RED,fontSize:10,fontFamily:"'IBM Plex Mono',monospace"}}>⚠ {liveError}</div>}
@@ -702,14 +702,14 @@ export default function App(){
                     </div>
                   </div>
                   <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:10}}>
-                    <button onClick={fetchLivePrices} disabled={liveLoading} style={{padding:"8px 16px",borderRadius:8,background:liveLoading?MUTED:GREEN,color:"#ffffff",border:"none",cursor:liveLoading?"not-allowed":"pointer",fontWeight:700,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",whiteSpace:"nowrap",display:"flex",alignItems:"center",gap:5}}>
+                    <button onClick={fetchLivePrices} disabled={liveLoading} style={{padding:"8px 16px",borderRadius:8,background:liveLoading?MUTED:GREEN,color:"#ffffff",border:"none",cursor:liveLoading?"not-allowed":"pointer",fontWeight:700,fontSize:13,fontFamily:"'IBM Plex Mono',monospace",whiteSpace:"nowrap",display:"flex",alignItems:"center",gap:5}}>
                       <span style={{display:"inline-block",...(liveLoading?{animation:"wb-spin 0.7s linear infinite"}:{})}}>⟳</span>
                       {liveLoading?"Fetching...":"Refresh Prices"}
                     </button>
                     <div style={{textAlign:"right"}}>
                       <div style={L}>Suggested Deploy</div>
                       <div style={{fontFamily:"'IBM Plex Mono',monospace",color:anyBuy?ov.color:DIM,fontSize:24,fontWeight:500}}>{anyBuy?`$${totalDeploy.toLocaleString()}`:"—"}</div>
-                      <div style={{color:DIM,fontSize:11,marginTop:3}}>from war chest</div>
+                      <div style={{color:DIM,fontSize:13,marginTop:3}}>from war chest</div>
                     </div>
                   </div>
                 </div>
@@ -725,10 +725,10 @@ export default function App(){
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:10,marginBottom:14}}>
                       <div style={{...L,marginBottom:0}}>Live Portfolio Value (Units × Current Price)</div>
                       <div style={{display:"flex",alignItems:"center",gap:8}}>
-                        <span style={{color:DIM,fontSize:11,fontFamily:"'IBM Plex Mono',monospace"}}>USD/SGD rate</span>
+                        <span style={{color:DIM,fontSize:13,fontFamily:"'IBM Plex Mono',monospace"}}>USD/SGD rate</span>
                         <input type="number" step="0.001" min={1} max={2} value={usdSgd}
                           onChange={e=>setUsdSgd(parseFloat(e.target.value)||1.35)}
-                          style={{...I,width:78,fontSize:12,padding:"5px 8px"}}/>
+                          style={{...I,width:78,fontSize:13,padding:"5px 8px"}}/>
                       </div>
                     </div>
                     <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:9,marginBottom:hasUnits?14:0}}>
@@ -741,7 +741,7 @@ export default function App(){
                             <input type="number" step="1" min={0} value={units[k]||""} placeholder="0"
                               onChange={e=>setUnits(u=>({...u,[k]:parseFloat(e.target.value)||0}))}
                               style={{...I,fontSize:13,color:v.color,marginBottom:6}}/>
-                            <div style={{color:units[k]>0?v.color:DIM,fontSize:11,fontFamily:"'IBM Plex Mono',monospace"}}>
+                            <div style={{color:units[k]>0?v.color:DIM,fontSize:13,fontFamily:"'IBM Plex Mono',monospace"}}>
                               {units[k]>0?`$${val.toLocaleString(undefined,{maximumFractionDigits:0})} USD`:"—"}
                             </div>
                           </div>
@@ -767,7 +767,7 @@ export default function App(){
                         </div>
                       </div>
                     )}
-                    {!hasUnits&&<div style={{color:DIM,fontSize:12,textAlign:"center",paddingBottom:4}}>Enter the number of units/shares you own above to see your live portfolio value in USD and SGD.</div>}
+                    {!hasUnits&&<div style={{color:DIM,fontSize:13,textAlign:"center",paddingBottom:4}}>Enter the number of units/shares you own above to see your live portfolio value in USD and SGD.</div>}
                   </div>
                 );
               })()}
@@ -788,7 +788,7 @@ export default function App(){
                         </div>
                         {live&&!live.error&&(
                           <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
-                            <span style={{color:parseFloat(live.change)>=0?GREEN:RED,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",background:parseFloat(live.change)>=0?`${GREEN}15`:`${RED}15`,padding:"2px 7px",borderRadius:6}}>
+                            <span style={{color:parseFloat(live.change)>=0?GREEN:RED,fontSize:13,fontFamily:"'IBM Plex Mono',monospace",background:parseFloat(live.change)>=0?`${GREEN}15`:`${RED}15`,padding:"2px 7px",borderRadius:6}}>
                               {parseFloat(live.change)>=0?"+":""}{live.change}% today
                             </span>
                             <span style={{color:DIM,fontSize:9,fontFamily:"'IBM Plex Mono',monospace"}}>{live.marketState}</span>
@@ -803,8 +803,8 @@ export default function App(){
                           <div style={L}>Alert / Buy Zone Price</div>
                           <input type="number" step="0.01" value={alertPrices[ticker]||""} placeholder="0 = off"
                             onChange={e=>setAlertPrices(a=>({...a,[ticker]:parseFloat(e.target.value)||0}))}
-                            style={{...I,fontSize:12,color:inBuyZone?GREEN:etf.color,width:140,border:inBuyZone?`1.5px solid ${GREEN}`:`1.5px solid ${BORDER}`}}/>
-                          {inBuyZone&&<div style={{color:GREEN,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",marginTop:4,fontWeight:700}}>🟢 IN BUY ZONE!</div>}
+                            style={{...I,fontSize:13,color:inBuyZone?GREEN:etf.color,width:140,border:inBuyZone?`1.5px solid ${GREEN}`:`1.5px solid ${BORDER}`}}/>
+                          {inBuyZone&&<div style={{color:GREEN,fontSize:13,fontFamily:"'IBM Plex Mono',monospace",marginTop:4,fontWeight:700}}>🟢 IN BUY ZONE!</div>}
                           {alertPrices[ticker]>0&&!inBuyZone&&<div style={{color:DIM,fontSize:10,marginTop:3,fontFamily:"'IBM Plex Mono',monospace"}}>+${(price-alertPrices[ticker]).toFixed(2)} above target</div>}
                         </div>
                       </div>
@@ -818,9 +818,9 @@ export default function App(){
                       </div>
                       <div>
                         <div style={L}>Signal</div>
-                        <div style={{display:"inline-block",padding:"4px 11px",borderRadius:8,background:`${sig.color}20`,border:`1px solid ${sig.color}45`,fontFamily:"'IBM Plex Mono',monospace",color:sig.color,fontSize:11,fontWeight:600,marginBottom:7}}>{sig.label}</div>
+                        <div style={{display:"inline-block",padding:"4px 11px",borderRadius:8,background:`${sig.color}20`,border:`1px solid ${sig.color}45`,fontFamily:"'IBM Plex Mono',monospace",color:sig.color,fontSize:13,fontWeight:600,marginBottom:7}}>{sig.label}</div>
                         {sig.deploy>0
-                          ?<><div style={{fontFamily:"'IBM Plex Mono',monospace",color:sig.color,fontSize:20,fontWeight:600}}>+${sig.deploy.toLocaleString()}</div><div style={{color:DIM,fontSize:11,marginTop:2}}>{sig.action}</div></>
+                          ?<><div style={{fontFamily:"'IBM Plex Mono',monospace",color:sig.color,fontSize:20,fontWeight:600}}>+${sig.deploy.toLocaleString()}</div><div style={{color:DIM,fontSize:13,marginTop:2}}>{sig.action}</div></>
                           :<div style={{color:DIM,fontSize:12}}>Continue DCA only<br/>${Math.round(monthly*etf.alloc)}/mo</div>
                         }
                       </div>
@@ -842,7 +842,7 @@ export default function App(){
                     </div>
                   ))}
                 </div>
-                <div style={{color:DIM,fontSize:11,marginTop:11}}>↑ Update whenever a new ATH is set. Check on <span style={{color:BLUE}}>tradingview.com</span> or your broker app.</div>
+                <div style={{color:DIM,fontSize:13,marginTop:11}}>↑ Update whenever a new ATH is set. Check on <span style={{color:BLUE}}>tradingview.com</span> or your broker app.</div>
               </div>
 
               <div style={{...C,background:`${GREEN}06`,border:`1px solid ${GREEN}25`}}>
@@ -859,8 +859,8 @@ export default function App(){
                     <div style={{height:5,background:MUTED,borderRadius:4,overflow:"hidden",marginTop:7}}>
                       <div style={{width:`${Math.min((warChest/20000)*100,100)}%`,height:"100%",background:warChest>=20000?GREEN:GOLD,borderRadius:4,transition:"width 0.4s"}}/>
                     </div>
-                    <div style={{color:DIM,fontSize:11,marginTop:5}}>{warChest>=20000?"✓ War chest fully loaded. Ready to deploy.":`$${(20000-warChest).toLocaleString()} remaining`}</div>
-                    {anyBuy&&warChest<totalDeploy&&<div style={{color:RED,fontSize:11,marginTop:4}}>⚠ Signal: deploy ${totalDeploy.toLocaleString()} — you have ${warChest.toLocaleString()}. Deploy what you can.</div>}
+                    <div style={{color:DIM,fontSize:13,marginTop:5}}>{warChest>=20000?"✓ War chest fully loaded. Ready to deploy.":`$${(20000-warChest).toLocaleString()} remaining`}</div>
+                    {anyBuy&&warChest<totalDeploy&&<div style={{color:RED,fontSize:13,marginTop:4}}>⚠ Signal: deploy ${totalDeploy.toLocaleString()} — you have ${warChest.toLocaleString()}. Deploy what you can.</div>}
                   </div>
                 </div>
               </div>
@@ -891,7 +891,7 @@ export default function App(){
                   <div>
                     <div style={{...L,color:GOLD}}>Annual Rebalancing Calculator</div>
                     <div style={{fontSize:14,fontWeight:500,lineHeight:1.6,marginTop:4}}>Enter your current portfolio values. See exactly what to sell and buy to restore your target allocation.</div>
-                    <div style={{color:DIM,fontSize:12,marginTop:7}}>Trigger: any ETF drifts <span style={{color:GOLD}}>±5%</span> from target. Rebalance once per year on the same date.</div>
+                    <div style={{color:DIM,fontSize:13,marginTop:7}}>Trigger: any ETF drifts <span style={{color:GOLD}}>±5%</span> from target. Rebalance once per year on the same date.</div>
                   </div>
                   <div style={{textAlign:"right"}}>
                     <div style={L}>Next Rebalance Date</div>
@@ -937,12 +937,12 @@ export default function App(){
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:11}}>
                       <div>
                         <div style={{color:isDrifted?GOLD:GREEN,fontSize:13,fontWeight:600}}>{isDrifted?"⚠ Rebalancing needed — allocation has drifted ±5%":"✓ Portfolio balanced — no action needed"}</div>
-                        <div style={{color:DIM,fontSize:12,marginTop:3}}>{isDrifted?"Follow the actions below to restore target allocation.":"All ETFs within ±5% of target. Continue DCA as normal."}</div>
+                        <div style={{color:DIM,fontSize:13,marginTop:3}}>{isDrifted?"Follow the actions below to restore target allocation.":"All ETFs within ±5% of target. Continue DCA as normal."}</div>
                       </div>
                       {isDrifted&&(
                         <div style={{display:"flex",gap:7}}>
                           {["sell","buy"].map(m=>(
-                            <button key={m} onClick={()=>setRebalMode(m)} style={{padding:"5px 12px",borderRadius:8,fontSize:11,cursor:"pointer",fontFamily:"'IBM Plex Mono',monospace",fontWeight:600,textTransform:"uppercase",background:rebalMode===m?GOLD:"transparent",color:rebalMode===m?"#0a0c10":DIM,border:`1px solid ${rebalMode===m?GOLD:BORDER}`}}>{m==="sell"?"Sell to rebalance":"Buy only"}</button>
+                            <button key={m} onClick={()=>setRebalMode(m)} style={{padding:"5px 12px",borderRadius:8,fontSize:13,cursor:"pointer",fontFamily:"'IBM Plex Mono',monospace",fontWeight:600,textTransform:"uppercase",background:rebalMode===m?GOLD:"transparent",color:rebalMode===m?"#0a0c10":DIM,border:`1px solid ${rebalMode===m?GOLD:BORDER}`}}>{m==="sell"?"Sell to rebalance":"Buy only"}</button>
                           ))}
                         </div>
                       )}
@@ -960,9 +960,9 @@ export default function App(){
                               {a.needsAction&&<span style={{fontSize:10,padding:"2px 8px",borderRadius:4,background:a.action==="SELL"?`${RED}20`:`${GREEN}20`,color:a.action==="SELL"?RED:GREEN,fontFamily:"'IBM Plex Mono',monospace",fontWeight:600}}>{a.action} ${Math.abs(a.diff).toLocaleString(undefined,{maximumFractionDigits:0})}</span>}
                             </div>
                             <div style={{display:"flex",gap:12,alignItems:"center"}}>
-                              <span style={{color:DIM,fontSize:11,fontFamily:"'IBM Plex Mono',monospace"}}>Now: <span style={{color:a.needsAction?(a.drift>0?RED:GREEN):TEXT}}>{a.curP.toFixed(1)}%</span></span>
-                              <span style={{color:DIM,fontSize:11,fontFamily:"'IBM Plex Mono',monospace"}}>Target: <span style={{color:a.color}}>{a.tgtP.toFixed(0)}%</span></span>
-                              <span style={{color:a.drift>0?RED:a.drift<0?GREEN:DIM,fontSize:11,fontFamily:"'IBM Plex Mono',monospace"}}>{a.drift>0?"+":""}{a.drift.toFixed(1)}%</span>
+                              <span style={{color:DIM,fontSize:13,fontFamily:"'IBM Plex Mono',monospace"}}>Now: <span style={{color:a.needsAction?(a.drift>0?RED:GREEN):TEXT}}>{a.curP.toFixed(1)}%</span></span>
+                              <span style={{color:DIM,fontSize:13,fontFamily:"'IBM Plex Mono',monospace"}}>Target: <span style={{color:a.color}}>{a.tgtP.toFixed(0)}%</span></span>
+                              <span style={{color:a.drift>0?RED:a.drift<0?GREEN:DIM,fontSize:13,fontFamily:"'IBM Plex Mono',monospace"}}>{a.drift>0?"+":""}{a.drift.toFixed(1)}%</span>
                             </div>
                           </div>
                           <div style={{height:7,background:MUTED,borderRadius:4,overflow:"hidden",position:"relative"}}>
@@ -989,7 +989,7 @@ export default function App(){
                               </div>
                               <div>
                                 <div style={{color:TEXT,fontSize:13}}>{isSell?`Sell $${Math.abs(a.diff).toLocaleString(undefined,{maximumFractionDigits:0})} of ${a.ticker}`:`Buy $${Math.abs(a.diff).toLocaleString(undefined,{maximumFractionDigits:0})} of ${a.ticker}`}</div>
-                                <div style={{color:DIM,fontSize:11,marginTop:2}}>Bring {a.ticker} from {a.curP.toFixed(1)}% → {a.tgtP.toFixed(0)}% · Target: ${a.tgtV.toLocaleString(undefined,{maximumFractionDigits:0})}</div>
+                                <div style={{color:DIM,fontSize:13,marginTop:2}}>Bring {a.ticker} from {a.curP.toFixed(1)}% → {a.tgtP.toFixed(0)}% · Target: ${a.tgtV.toLocaleString(undefined,{maximumFractionDigits:0})}</div>
                               </div>
                               <div style={{fontFamily:"'IBM Plex Mono',monospace",color:isSell?RED:GREEN,fontSize:19,fontWeight:600,textAlign:"right"}}>{isSell?"−":"+"}${Math.abs(a.diff).toLocaleString(undefined,{maximumFractionDigits:0})}</div>
                             </div>
@@ -997,8 +997,8 @@ export default function App(){
                         })}
                       </div>
                       <div style={{marginTop:13,padding:"11px 13px",background:SURFACE,borderRadius:10,border:`1px solid ${BORDER}`}}>
-                        <div style={{color:GOLD,fontSize:12,fontWeight:600,marginBottom:3}}>{rebalMode==="sell"?"Sell method — classic rebalancing":"Buy-only method — no selling"}</div>
-                        <div style={{color:DIM,fontSize:11,lineHeight:1.7}}>{rebalMode==="sell"?"Sell overweight ETFs and use proceeds to buy underweight. Singapore has no CGT — selling is completely fine.":"Only buy underweight ETFs. Takes longer but avoids any selling friction. Good for deploying new DCA or war chest cash."}</div>
+                        <div style={{color:GOLD,fontSize:13,fontWeight:600,marginBottom:3}}>{rebalMode==="sell"?"Sell method — classic rebalancing":"Buy-only method — no selling"}</div>
+                        <div style={{color:DIM,fontSize:13,lineHeight:1.7}}>{rebalMode==="sell"?"Sell overweight ETFs and use proceeds to buy underweight. Singapore has no CGT — selling is completely fine.":"Only buy underweight ETFs. Takes longer but avoids any selling friction. Good for deploying new DCA or war chest cash."}</div>
                       </div>
                     </div>
                   )}
@@ -1008,8 +1008,8 @@ export default function App(){
                     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}>
                       {[["Once a year only","Same date every year. Over-rebalancing adds unnecessary costs."],["5% drift threshold","Only act when any ETF drifts ±5% from target. Ignore noise."],["Singapore: no CGT","Sell and rebalance freely — no capital gains tax applies."],["Don't time the market","Rebalance on schedule regardless of market conditions."],["DCA micro-rebalances","Buying underweight ETFs monthly reduces manual rebalance frequency."],["Keep records","Note date and amounts after each rebalance for your own records."]].map(([t,d])=>(
                         <div key={t} style={{background:SURFACE,border:`1px solid ${BORDER}`,borderRadius:9,padding:"11px 13px"}}>
-                          <div style={{color:BLUE,fontSize:11,fontWeight:600,marginBottom:3}}>{t}</div>
-                          <div style={{color:DIM,fontSize:11,lineHeight:1.6}}>{d}</div>
+                          <div style={{color:BLUE,fontSize:13,fontWeight:600,marginBottom:3}}>{t}</div>
+                          <div style={{color:DIM,fontSize:13,lineHeight:1.6}}>{d}</div>
                         </div>
                       ))}
                     </div>
@@ -1050,7 +1050,7 @@ export default function App(){
                 {TIERS.map((t,i)=>(
                   <div key={i} style={{display:"grid",gridTemplateColumns:"88px 1fr 1fr auto",alignItems:"center",gap:13,background:i===0?"transparent":`${t.color}08`,border:`1px solid ${i===0?BORDER:t.color+"30"}`,borderRadius:9,padding:"12px 14px"}}>
                     <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:19,color:t.color,letterSpacing:1}}>{t.drop}</div>
-                    <div><div style={{color:TEXT,fontSize:12,fontWeight:500}}>{t.action}</div><div style={{color:DIM,fontSize:11,marginTop:2}}>{t.freq}</div></div>
+                    <div><div style={{color:TEXT,fontSize:13,fontWeight:500}}>{t.action}</div><div style={{color:DIM,fontSize:13,marginTop:2}}>{t.freq}</div></div>
                     <div style={{display:"flex",gap:3,alignItems:"center"}}>{Array.from({length:6}).map((_,j)=><div key={j} style={{width:7,height:7,borderRadius:2,background:j<t.intensity?t.color:MUTED}}/>)}</div>
                     <div style={{textAlign:"right",fontFamily:"'IBM Plex Mono',monospace",color:t.topup?t.color:DIM,fontSize:13,fontWeight:500}}>{t.topup?`+$${t.topup.toLocaleString()}`:"DCA only"}</div>
                   </div>
@@ -1070,12 +1070,12 @@ export default function App(){
                     <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:9}}>
                       {v.thresholds.map((thr,i)=>(
                         <div key={i} style={{padding:"5px 10px",borderRadius:8,background:v.amounts[i]===0?MUTED+"30":`${v.color}15`,border:`1px solid ${v.amounts[i]===0?MUTED:v.color+"40"}`}}>
-                          <div style={{color:v.amounts[i]===0?DIM:v.color,fontSize:11,fontFamily:"'IBM Plex Mono',monospace"}}>−{thr}%</div>
-                          <div style={{color:v.amounts[i]===0?DIM:TEXT,fontSize:12,fontWeight:500,marginTop:2}}>{v.amounts[i]===0?"Hold":`+$${v.amounts[i].toLocaleString()}`}</div>
+                          <div style={{color:v.amounts[i]===0?DIM:v.color,fontSize:13,fontFamily:"'IBM Plex Mono',monospace"}}>−{thr}%</div>
+                          <div style={{color:v.amounts[i]===0?DIM:TEXT,fontSize:13,fontWeight:500,marginTop:2}}>{v.amounts[i]===0?"Hold":`+$${v.amounts[i].toLocaleString()}`}</div>
                         </div>
                       ))}
                     </div>
-                    <div style={{color:DIM,fontSize:11,fontStyle:"italic"}}>→ {v.note}</div>
+                    <div style={{color:DIM,fontSize:13,fontStyle:"italic"}}>→ {v.note}</div>
                   </div>
                 ))}
               </div>
@@ -1085,141 +1085,4 @@ export default function App(){
               <div style={{...L,marginBottom:14}}>SSB War Chest — How to Deploy</div>
               {SSB_STEPS.map((s,i)=>(
                 <div key={i} style={{display:"flex",gap:14,alignItems:"flex-start"}}>
-                  <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
-                    <div style={{width:32,height:32,borderRadius:"50%",background:`${s.color}20`,border:`2px solid ${s.color}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                      <span style={{fontFamily:"'IBM Plex Mono',monospace",color:s.color,fontSize:12,fontWeight:700}}>{i+1}</span>
-                    </div>
-                    {i<SSB_STEPS.length-1&&<div style={{width:2,height:26,background:`${s.color}30`,margin:"3px 0"}}/>}
-                  </div>
-                  <div style={{paddingBottom:i<SSB_STEPS.length-1?5:0}}>
-                    <div style={{display:"flex",gap:9,alignItems:"center",marginBottom:3}}>
-                      <span style={{color:s.color,fontSize:12,fontWeight:600}}>{s.phase}</span>
-                      <span style={{color:DIM,fontSize:10,fontFamily:"'IBM Plex Mono',monospace",background:MUTED+"40",padding:"1px 7px",borderRadius:4}}>{s.time}</span>
-                    </div>
-                    <div style={{color:TEXT,fontSize:13}}>{s.action}</div>
-                    <div style={{color:DIM,fontSize:11,marginTop:2}}>{s.detail}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div style={C}>
-              <div style={{...L,marginBottom:13}}>The 6 Rules — For When It Feels Terrifying</div>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}>
-                {RULES6.map((r,i)=>(
-                  <div key={i} style={{background:SURFACE,border:`1px solid ${BORDER}`,borderRadius:9,padding:"12px 13px"}}>
-                    <div style={{fontSize:17,marginBottom:5}}>{r.icon}</div>
-                    <div style={{color:TEXT,fontSize:12,fontWeight:600,marginBottom:3}}>{r.title}</div>
-                    <div style={{color:DIM,fontSize:11,lineHeight:1.6}}>{r.desc}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* AI THESIS */}
-        {tab==="AI Thesis"&&(
-          <div style={{display:"grid",gap:14}}>
-            <div style={{...C,background:`${BLUE}06`,border:`1px solid ${BLUE}20`}}>
-              <div style={{...L,color:BLUE}}>Your Investment Thesis</div>
-              <div style={{fontSize:17,fontWeight:500,lineHeight:1.6,marginTop:4}}>AI will drive the greatest productivity expansion in human history over the next 20 years. This portfolio captures every layer of that transformation.</div>
-            </div>
-            <div style={{display:"grid",gap:11}}>
-              {AI_LAYERS.map((l,i)=>(
-                <div key={l.key} style={{...C,borderLeft:`3px solid ${l.color}`,display:"grid",gridTemplateColumns:"90px 1fr auto",alignItems:"center",gap:18}}>
-                  <div>
-                    <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:21,color:l.color,letterSpacing:1}}>{l.key}</div>
-                    <div style={{color:DIM,fontSize:10,fontFamily:"'IBM Plex Mono',monospace"}}>Layer {i+1}</div>
-                  </div>
-                  <div>
-                    <div style={{color:l.color,fontSize:12,fontWeight:600,marginBottom:3}}>{l.layer}</div>
-                    <div style={{color:DIM,fontSize:12}}>{l.desc}</div>
-                  </div>
-                  <div style={{textAlign:"right"}}>
-                    <div style={{fontFamily:"'IBM Plex Mono',monospace",color:l.color,fontSize:16}}>{(PORTFOLIO[l.key].alloc*100).toFixed(0)}%</div>
-                    <div style={{color:DIM,fontSize:10,marginTop:2}}>${Math.round(monthly*PORTFOLIO[l.key].alloc)}/mo</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:11}}>
-              <div style={{...C,background:`${GREEN}07`}}>
-                <div style={{...L,color:GREEN}}>Why This Holds 20 Years</div>
-                {["AI S-curve is early — still in the infrastructure phase","Semiconductor demand compounds with every new AI application","VWRA captures AI spillover as productivity spreads globally","S&P 500 earnings rise as every sector gets AI-transformed"].map((t,i)=>(
-                  <div key={i} style={{display:"flex",gap:9,alignItems:"flex-start",marginTop:8}}>
-                    <span style={{color:GREEN,fontSize:13}}>→</span>
-                    <span style={{color:DIM,fontSize:12,lineHeight:1.5}}>{t}</span>
-                  </div>
-                ))}
-              </div>
-              <div style={{...C,background:`${RED}07`}}>
-                <div style={{...L,color:RED}}>Risks to the Thesis</div>
-                {["AI winter — technology plateaus before mass productivity impact","Geopolitical chip war disrupts semiconductor supply chains","Regulatory crackdown breaks up Nasdaq mega-caps","New paradigm displaces current AI architecture entirely"].map((t,i)=>(
-                  <div key={i} style={{display:"flex",gap:9,alignItems:"flex-start",marginTop:8}}>
-                    <span style={{color:RED,fontSize:13}}>→</span>
-                    <span style={{color:DIM,fontSize:12,lineHeight:1.5}}>{t}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* PORTFOLIO */}
-        {tab==="Portfolio"&&(
-          <div style={{display:"grid",gap:14}}>
-            <div style={C}>
-              <div style={{...L,marginBottom:18}}>Final Confirmed 4-ETF Allocation</div>
-              <div style={{display:"grid",gap:11}}>
-                {Object.entries(PORTFOLIO).map(([k,v])=>(
-                  <div key={k} style={{background:SURFACE,border:`1px solid ${BORDER}`,borderRadius:11,padding:15}}>
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:9}}>
-                      <div style={{display:"flex",alignItems:"center",gap:9,flexWrap:"wrap"}}>
-                        <span style={{fontFamily:"'IBM Plex Mono',monospace",color:v.color,fontSize:15,fontWeight:600}}>{k}</span>
-                        <span style={{color:DIM,fontSize:12}}>{v.label}</span>
-                        {k!=="SMH"&&<span style={{fontSize:10,color:GREEN,background:`${GREEN}15`,padding:"2px 8px",borderRadius:10,fontFamily:"'IBM Plex Mono',monospace"}}>🇮🇪 UCITS ✓</span>}
-                        {k==="SMH"&&<span style={{fontSize:10,color:"#ff8a65",background:"#ff8a6515",padding:"2px 8px",borderRadius:10,fontFamily:"'IBM Plex Mono',monospace"}}>🇺🇸 US-domiciled ⚠</span>}
-                      </div>
-                      <span style={{fontFamily:"'IBM Plex Mono',monospace",color:v.color,fontSize:17,fontWeight:500}}>{(v.alloc*100).toFixed(0)}%</span>
-                    </div>
-                    <div style={{height:5,background:MUTED,borderRadius:4,overflow:"hidden",marginBottom:9}}>
-                      <div style={{width:`${v.alloc*100}%`,height:"100%",background:v.color,borderRadius:4}}/>
-                    </div>
-                    <div style={{display:"flex",gap:16,flexWrap:"wrap"}}>
-                      {[["Monthly",`$${Math.round(monthly*v.alloc)}`,TEXT],["TER",`${v.ter}%`,DIM],["Bear",`${v.bear}%`,RED],["Base",`${v.base}%`,GOLD],["Bull",`${v.bull}%`,GREEN]].map(([lbl,val,c])=>(
-                        <div key={lbl}><span style={{color:DIM,fontSize:11}}>{lbl}: </span><span style={{color:c,fontSize:11,fontFamily:"'IBM Plex Mono',monospace"}}>{val}</span></div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:11,marginTop:15,paddingTop:15,borderTop:`1px solid ${BORDER}`}}>
-                {[["Blended TER",fmtP(BLENDED_TER),GREEN],["Base Return",fmtP(baseR),GOLD],["Monthly DCA",`$${monthly.toLocaleString()}`,BLUE]].map(([lbl,v,c])=>(
-                  <div key={lbl}><div style={L}>{lbl}</div><div style={{fontFamily:"'IBM Plex Mono',monospace",color:c,fontSize:19}}>{v}</div></div>
-                ))}
-              </div>
-            </div>
-            <div style={{...C,border:"1px solid #ff8a6530",background:"#ff8a6506"}}>
-              <div style={{color:"#ff8a65",fontSize:12,fontWeight:600,marginBottom:7}}>⚠ SMH Tax Note — Singapore Resident</div>
-              <div style={{color:DIM,fontSize:12,lineHeight:1.7}}>SMH is US-domiciled. Dividends face <strong style={{color:TEXT}}>30% withholding tax</strong> vs 15% for Ireland UCITS. US estate tax applies on holdings exceeding <strong style={{color:TEXT}}>$60,000</strong> — monitor your SMH position size. All other ETFs are Ireland-domiciled UCITS. Singapore has <strong style={{color:TEXT}}>no capital gains tax</strong>.</div>
-            </div>
-            <div style={{...C,border:`1px solid ${GREEN}25`,background:`${GREEN}06`}}>
-              <div style={{color:GREEN,fontSize:12,fontWeight:600,marginBottom:7}}>✓ CSNDX Confirmed Details</div>
-              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(130px,1fr))",gap:10,marginTop:4}}>
-                {[["Exchange","EBS / SIX Swiss"],["Currency","USD ✓"],["Domicile","Ireland 🇮🇪"],["Share Class","Accumulating ✓"],["AUM","$23 Billion"],["TER","0.20%"],["WHT Rate","15% (IE-US treaty)"],["Launch","Jan 2010"]].map(([l,v])=>(
-                  <div key={l} style={{background:SURFACE,border:`1px solid ${BORDER}`,borderRadius:8,padding:"9px 11px"}}>
-                    <div style={{color:DIM,fontSize:10,fontFamily:"'IBM Plex Mono',monospace",marginBottom:3}}>{l}</div>
-                    <div style={{color:GREEN,fontSize:12,fontFamily:"'IBM Plex Mono',monospace",fontWeight:500}}>{v}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div style={{color:MUTED,fontSize:10,textAlign:"center",fontFamily:"'IBM Plex Mono',monospace",letterSpacing:"0.06em"}}>ILLUSTRATIVE ONLY · NOT FINANCIAL ADVICE · PAST PERFORMANCE ≠ FUTURE RESULTS</div>
-          </div>
-        )}
-
-      </div>
-    </div>
-  );
-}
+                  <div style={{display:"flex",flexDire
